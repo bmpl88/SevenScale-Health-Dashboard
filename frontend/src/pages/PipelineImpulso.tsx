@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Card, Menu, Space, Avatar, Input, Badge, Dropdown, Progress, Statistic, Button, Tag } from 'antd';
+import { Layout, Card, Menu, Space, Avatar, Input, Badge, Dropdown, Progress, Statistic, Button, Tag, Modal, Tabs, Timeline, Checkbox, DatePicker, Select, Upload, message } from 'antd';
 import { 
   Building2, 
   Users, 
@@ -16,10 +16,22 @@ import {
   CheckCircle,
   ArrowRight,
   Activity,
-  Target
+  Target,
+  FileText,
+  MessageSquare,
+  Upload as UploadIcon,
+  Plus,
+  Edit,
+  Trash2,
+  CheckSquare,
+  AlertCircle,
+  Calendar as CalendarIcon
 } from 'lucide-react';
 
 const { Header, Content } = Layout;
+const { TabPane } = Tabs;
+const { TextArea } = Input;
+const { Option } = Select;
 
 // Hook simulado para dados do Pipeline Supabase
 const usePipelineData = () => {
@@ -211,6 +223,8 @@ const usePipelineData = () => {
 const PipelineImpulsoPage = () => {
   const { pipelineDetalhado, clinicasPipeline, metricas, loading } = usePipelineData();
   const [faseExpandida, setFaseExpandida] = useState(null);
+  const [modalClinica, setModalClinica] = useState(null);
+  const [activeTab, setActiveTab] = useState('historico');
 
   const renderFaseCard = (fase) => {
     const isExpanded = faseExpandida === fase.fase;
@@ -680,7 +694,7 @@ const PipelineImpulsoPage = () => {
         </div>
       </div>
 
-      {/* Clínicas no Pipeline - HIERARQUIA H2 */}
+      {/* Kanban Pipeline - HIERARQUIA H2 */}
       <div style={{ marginBottom: '48px' }}>
         <div style={{ marginBottom: '32px' }}>
           <h2 style={{ 
@@ -702,238 +716,542 @@ const PipelineImpulsoPage = () => {
             fontWeight: '400',
             lineHeight: '24px'
           }}>
-            Acompanhamento detalhado do progresso de cada clínica na metodologia IMPULSO®
+            Kanban visual do progresso das clínicas através das 7 fases da metodologia IMPULSO®
           </p>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {clinicasPipeline.map((clinica) => {
-            const faseAtual = pipelineDetalhado.find(f => f.fase === clinica.fase_atual);
+        {/* Kanban Board */}
+        <div style={{ 
+          display: 'flex', 
+          gap: '16px', 
+          overflowX: 'auto',
+          paddingBottom: '16px',
+          minHeight: '500px'
+        }}>
+          {pipelineDetalhado.map((fase) => {
+            const clinicasNaFase = clinicasPipeline.filter(c => c.fase_atual === fase.fase);
+            
             return (
-              <Card 
-                key={clinica.id} 
+              <div 
+                key={fase.fase}
                 style={{
-                  borderRadius: '12px', 
-                  border: '1px solid #e2e8f0', 
-                  background: 'white', 
-                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
-                  position: 'relative',
-                  overflow: 'hidden'
+                  minWidth: '280px',
+                  background: '#F8FAFC',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  border: '1px solid #E2E8F0'
                 }}
               >
-                <div style={{
-                  position: 'absolute', 
-                  top: '0', 
-                  left: '0', 
-                  width: '4px', 
-                  height: '100%', 
-                  background: faseAtual?.cor || '#CBD5E1'
-                }} />
-                
-                <div style={{ padding: '28px', paddingLeft: '32px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
-                        <h3 style={{ 
-                          fontSize: '22px', 
-                          fontWeight: '700', 
-                          color: '#1e293b', 
-                          margin: '0',
-                          fontFamily: 'Inter, sans-serif',
-                          letterSpacing: '-0.01em'
-                        }}>
-                          {clinica.nome}
-                        </h3>
-                        <Tag 
-                          style={{ 
-                            background: `${faseAtual?.cor}15`,
-                            color: faseAtual?.cor,
-                            border: `1px solid ${faseAtual?.cor}30`,
-                            fontFamily: 'Inter, sans-serif',
-                            fontWeight: '600',
-                            fontSize: '12px',
-                            padding: '4px 8px'
-                          }}
-                        >
-                          {faseAtual?.icone} {clinica.fase_atual}
-                        </Tag>
-                      </div>
-                      <div style={{ 
-                        fontSize: '15px', 
-                        color: '#64748b', 
-                        marginBottom: '6px',
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: '500'
-                      }}>
-                        🎯 <strong>Próxima ação:</strong> {clinica.proxima_acao}
-                      </div>
-                      <div style={{ 
-                        fontSize: '14px', 
-                        color: '#64748b',
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: '400'
-                      }}>
-                        👤 Responsável: {clinica.responsavel} • ⏱️ {clinica.tempo_na_fase} dias na fase
-                      </div>
-                    </div>
-                    
-                    <div style={{ textAlign: 'right', minWidth: '140px' }}>
-                      <div style={{ 
-                        fontSize: '28px', 
-                        fontWeight: '800', 
-                        color: '#10B981',
-                        fontFamily: 'Inter, sans-serif',
-                        letterSpacing: '-0.02em',
-                        lineHeight: '32px'
-                      }}>
-                        {clinica.roi_atual}%
-                      </div>
-                      <div style={{ 
-                        fontSize: '13px', 
-                        color: '#64748b',
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: '500'
-                      }}>
-                        ROI Atual
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Progress da Fase */}
-                  <div style={{ marginBottom: '24px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                      <span style={{ 
-                        fontSize: '13px', 
-                        color: '#64748b',
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: '600'
-                      }}>
-                        Progresso da Fase {faseAtual?.titulo}
-                      </span>
-                      <span style={{ 
-                        fontSize: '13px', 
-                        color: '#1e293b',
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: '700'
-                      }}>
-                        {clinica.progresso_fase}%
-                      </span>
-                    </div>
-                    <Progress 
-                      percent={clinica.progresso_fase} 
-                      strokeColor={faseAtual?.cor}
-                      trailColor="#f1f5f9"
-                      showInfo={false}
-                    />
-                  </div>
-
-                  {/* Métricas da Clínica - HIERARQUIA H5 */}
-                  <div style={{ 
-                    display: 'grid', 
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', 
-                    gap: '20px',
-                    padding: '20px',
-                    background: '#F8FAFC',
-                    borderRadius: '8px',
-                    marginBottom: '20px'
+                {/* Header da Coluna */}
+                <div style={{ marginBottom: '16px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    marginBottom: '8px'
                   }}>
-                    <div>
-                      <div style={{ 
-                        fontSize: '10px', 
-                        color: '#64748b', 
-                        textTransform: 'uppercase', 
-                        letterSpacing: '0.8px', 
-                        marginBottom: '6px',
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: '600'
-                      }}>
-                        Pacientes/Mês
-                      </div>
-                      <div style={{ 
-                        fontSize: '18px', 
-                        fontWeight: '700', 
-                        color: '#1e293b',
-                        fontFamily: 'Inter, sans-serif',
-                        letterSpacing: '-0.01em'
-                      }}>
-                        {clinica.pacientes_mes.toLocaleString()}
-                      </div>
+                    <div style={{
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '50%',
+                      background: fase.cor
+                    }} />
+                    <div style={{
+                      fontSize: '14px',
+                      fontWeight: '700',
+                      color: '#1e293b',
+                      fontFamily: 'Inter, sans-serif'
+                    }}>
+                      {fase.icone} {fase.fase}
                     </div>
-                    <div>
-                      <div style={{ 
-                        fontSize: '10px', 
-                        color: '#64748b', 
-                        textTransform: 'uppercase', 
-                        letterSpacing: '0.8px', 
-                        marginBottom: '6px',
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: '600'
-                      }}>
-                        Posição Pipeline
-                      </div>
-                      <div style={{ 
-                        fontSize: '18px', 
-                        fontWeight: '700', 
-                        color: faseAtual?.cor,
-                        fontFamily: 'Inter, sans-serif',
-                        letterSpacing: '-0.01em'
-                      }}>
-                        {clinica.posicao_fase}/7
-                      </div>
-                    </div>
-                    <div>
-                      <div style={{ 
-                        fontSize: '10px', 
-                        color: '#64748b', 
-                        textTransform: 'uppercase', 
-                        letterSpacing: '0.8px', 
-                        marginBottom: '6px',
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: '600'
-                      }}>
-                        Data Entrada
-                      </div>
-                      <div style={{ 
-                        fontSize: '15px', 
-                        fontWeight: '600', 
-                        color: '#1e293b',
-                        fontFamily: 'Inter, sans-serif'
-                      }}>
-                        {new Date(clinica.data_entrada_fase).toLocaleDateString('pt-BR')}
-                      </div>
+                    <div style={{
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      color: '#64748b',
+                      background: 'white',
+                      padding: '2px 8px',
+                      borderRadius: '12px',
+                      border: '1px solid #E2E8F0',
+                      fontFamily: 'Inter, sans-serif'
+                    }}>
+                      {clinicasNaFase.length}
                     </div>
                   </div>
-
-                  {/* Actions */}
-                  <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-                    <Button 
-                      size="middle"
-                      style={{ 
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: '500'
-                      }}
-                    >
-                      Ver Histórico
-                    </Button>
-                    <Button 
-                      type="primary"
-                      size="middle"
-                      style={{ 
-                        background: faseAtual?.cor,
-                        borderColor: faseAtual?.cor,
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: '600'
-                      }}
-                    >
-                      Acompanhar
-                    </Button>
+                  <div style={{
+                    fontSize: '12px',
+                    color: '#64748b',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: '500'
+                  }}>
+                    Fase {fase.posicao} • {fase.tempoMedio} dias médio
                   </div>
                 </div>
-              </Card>
+
+                {/* Cards das Clínicas */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {clinicasNaFase.map((clinica) => (
+                    <Card
+                      key={clinica.id}
+                      style={{
+                        borderRadius: '8px',
+                        border: '1px solid #E2E8F0',
+                        background: 'white',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease'
+                      }}
+                      bodyStyle={{ padding: '16px' }}
+                      onClick={() => setModalClinica(clinica)}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0px)';
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
+                      }}
+                    >
+                      {/* Header do Card */}
+                      <div style={{ marginBottom: '12px' }}>
+                        <div style={{
+                          fontSize: '16px',
+                          fontWeight: '700',
+                          color: '#1e293b',
+                          marginBottom: '4px',
+                          fontFamily: 'Inter, sans-serif',
+                          letterSpacing: '-0.01em',
+                          lineHeight: '20px'
+                        }}>
+                          {clinica.nome}
+                        </div>
+                        <div style={{
+                          fontSize: '12px',
+                          color: '#64748b',
+                          fontFamily: 'Inter, sans-serif',
+                          fontWeight: '500'
+                        }}>
+                          👤 {clinica.responsavel}
+                        </div>
+                      </div>
+
+                      {/* ROI e Progress */}
+                      <div style={{ marginBottom: '12px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                          <span style={{
+                            fontSize: '11px',
+                            color: '#64748b',
+                            fontFamily: 'Inter, sans-serif',
+                            fontWeight: '600',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.5px'
+                          }}>
+                            ROI Atual
+                          </span>
+                          <span style={{
+                            fontSize: '18px',
+                            fontWeight: '800',
+                            color: '#10B981',
+                            fontFamily: 'Inter, sans-serif',
+                            letterSpacing: '-0.01em'
+                          }}>
+                            {clinica.roi_atual}%
+                          </span>
+                        </div>
+                        
+                        <div style={{ marginBottom: '8px' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                            <span style={{
+                              fontSize: '11px',
+                              color: '#64748b',
+                              fontFamily: 'Inter, sans-serif',
+                              fontWeight: '600'
+                            }}>
+                              Progresso da Fase
+                            </span>
+                            <span style={{
+                              fontSize: '11px',
+                              color: '#1e293b',
+                              fontFamily: 'Inter, sans-serif',
+                              fontWeight: '700'
+                            }}>
+                              {clinica.progresso_fase}%
+                            </span>
+                          </div>
+                          <Progress
+                            percent={clinica.progresso_fase}
+                            strokeColor={fase.cor}
+                            trailColor="#F1F5F9"
+                            showInfo={false}
+                            size="small"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Métricas Resumidas */}
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 1fr',
+                        gap: '8px',
+                        marginBottom: '12px',
+                        padding: '8px',
+                        background: '#F8FAFC',
+                        borderRadius: '6px'
+                      }}>
+                        <div>
+                          <div style={{
+                            fontSize: '10px',
+                            color: '#64748b',
+                            fontFamily: 'Inter, sans-serif',
+                            fontWeight: '600',
+                            marginBottom: '2px'
+                          }}>
+                            PACIENTES
+                          </div>
+                          <div style={{
+                            fontSize: '14px',
+                            fontWeight: '700',
+                            color: '#1e293b',
+                            fontFamily: 'Inter, sans-serif'
+                          }}>
+                            {clinica.pacientes_mes.toLocaleString()}
+                          </div>
+                        </div>
+                        <div>
+                          <div style={{
+                            fontSize: '10px',
+                            color: '#64748b',
+                            fontFamily: 'Inter, sans-serif',
+                            fontWeight: '600',
+                            marginBottom: '2px'
+                          }}>
+                            DIAS NA FASE
+                          </div>
+                          <div style={{
+                            fontSize: '14px',
+                            fontWeight: '700',
+                            color: fase.cor,
+                            fontFamily: 'Inter, sans-serif'
+                          }}>
+                            {clinica.tempo_na_fase}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Próxima Ação */}
+                      <div style={{
+                        fontSize: '12px',
+                        color: '#64748b',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: '500',
+                        lineHeight: '16px',
+                        marginBottom: '8px'
+                      }}>
+                        🎯 {clinica.proxima_acao}
+                      </div>
+
+                      {/* Status Badge */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Tag
+                          style={{
+                            background: `${fase.cor}15`,
+                            color: fase.cor,
+                            border: `1px solid ${fase.cor}30`,
+                            fontFamily: 'Inter, sans-serif',
+                            fontWeight: '600',
+                            fontSize: '10px',
+                            padding: '2px 6px'
+                          }}
+                        >
+                          Fase {clinica.posicao_fase}/7
+                        </Tag>
+                        <div style={{
+                          fontSize: '11px',
+                          color: '#64748b',
+                          fontFamily: 'Inter, sans-serif',
+                          fontWeight: '500'
+                        }}>
+                          {new Date(clinica.data_entrada_fase).toLocaleDateString('pt-BR', { 
+                            day: '2-digit', 
+                            month: '2-digit' 
+                          })}
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+
+                  {/* Card Placeholder para fases vazias */}
+                  {clinicasNaFase.length === 0 && (
+                    <div style={{
+                      borderRadius: '8px',
+                      border: '2px dashed #CBD5E1',
+                      background: 'white',
+                      padding: '24px',
+                      textAlign: 'center',
+                      color: '#94A3B8',
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '13px',
+                      fontWeight: '500'
+                    }}>
+                      Nenhuma clínica nesta fase
+                    </div>
+                  )}
+                </div>
+              </div>
             );
           })}
         </div>
+        
+        {/* Legenda do Kanban */}
+        <div style={{
+          marginTop: '24px',
+          padding: '16px',
+          background: '#F8FAFC',
+          borderRadius: '8px',
+          border: '1px solid #E2E8F0'
+        }}>
+          <div style={{
+            fontSize: '13px',
+            fontWeight: '600',
+            color: '#1e293b',
+            marginBottom: '8px',
+            fontFamily: 'Inter, sans-serif'
+          }}>
+            💡 Como usar o Kanban:
+          </div>
+          <div style={{
+            fontSize: '12px',
+            color: '#64748b',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: '400',
+            lineHeight: '18px'
+          }}>
+            • Cada coluna representa uma fase da metodologia IMPULSO® • 
+            Cards mostram o progresso das clínicas • 
+            Números nas colunas indicam quantas clínicas estão em cada fase • 
+            Clique nos cards para abrir detalhes completos da clínica
+          </div>
+        </div>
       </div>
+
+      {/* Modal de Detalhes da Clínica */}
+      <Modal
+        title={null}
+        open={modalClinica !== null}
+        onCancel={() => setModalClinica(null)}
+        footer={null}
+        width={1000}
+        style={{ top: 20 }}
+      >
+        {modalClinica && (
+          <div>
+            {/* Header do Modal */}
+            <div style={{
+              background: 'linear-gradient(135deg, #FF7A00 0%, #1A202C 100%)',
+              padding: '24px',
+              color: 'white'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div>
+                  <h2 style={{
+                    fontSize: '24px',
+                    fontWeight: '700',
+                    margin: '0 0 8px 0',
+                    fontFamily: 'Inter, sans-serif',
+                    color: 'white'
+                  }}>
+                    {modalClinica.nome}
+                  </h2>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <Tag style={{
+                      background: 'rgba(255, 255, 255, 0.2)',
+                      color: 'white',
+                      border: '1px solid rgba(255, 255, 255, 0.3)',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: '600'
+                    }}>
+                      {pipelineDetalhado.find(f => f.fase === modalClinica.fase_atual)?.icone} {modalClinica.fase_atual}
+                    </Tag>
+                    <span style={{ fontSize: '14px', opacity: '0.9', fontFamily: 'Inter, sans-serif' }}>
+                      👤 {modalClinica.responsavel}
+                    </span>
+                  </div>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{
+                    fontSize: '32px',
+                    fontWeight: '800',
+                    fontFamily: 'Inter, sans-serif',
+                    letterSpacing: '-0.02em'
+                  }}>
+                    {modalClinica.roi_atual}%
+                  </div>
+                  <div style={{ fontSize: '14px', opacity: '0.9', fontFamily: 'Inter, sans-serif' }}>
+                    ROI Atual
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Tabs do Modal */}
+            <Tabs
+              activeKey={activeTab}
+              onChange={setActiveTab}
+              style={{ padding: '0 24px' }}
+              items={[
+                {
+                  key: 'historico',
+                  label: (
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: '600' }}>
+                      <Clock size={16} style={{ marginRight: '6px' }} />
+                      Histórico
+                    </span>
+                  ),
+                  children: (
+                    <div style={{ padding: '24px 0' }}>
+                      {/* Timeline do Histórico */}
+                      <Timeline
+                        items={modalClinica.historico_fases.map((fase, index) => {
+                          const faseConfig = pipelineDetalhado.find(f => f.fase === fase.fase);
+                          const isAtual = fase.fase === modalClinica.fase_atual;
+                          
+                          return {
+                            dot: (
+                              <div style={{
+                                width: '12px',
+                                height: '12px',
+                                borderRadius: '50%',
+                                background: faseConfig?.cor || '#CBD5E1',
+                                border: isAtual ? '3px solid #FF7A00' : 'none'
+                              }} />
+                            ),
+                            children: (
+                              <div style={{ marginBottom: '16px' }}>
+                                <div style={{
+                                  fontSize: '16px',
+                                  fontWeight: '700',
+                                  color: '#1e293b',
+                                  fontFamily: 'Inter, sans-serif',
+                                  marginBottom: '4px'
+                                }}>
+                                  {faseConfig?.icone} {fase.fase}
+                                  {isAtual && (
+                                    <Tag style={{
+                                      marginLeft: '8px',
+                                      background: '#FF7A0015',
+                                      color: '#FF7A00',
+                                      border: '1px solid #FF7A0030',
+                                      fontSize: '10px'
+                                    }}>
+                                      ATUAL
+                                    </Tag>
+                                  )}
+                                </div>
+                                <div style={{
+                                  fontSize: '14px',
+                                  color: '#64748b',
+                                  fontFamily: 'Inter, sans-serif',
+                                  marginBottom: '8px'
+                                }}>
+                                  📅 Entrada: {new Date(fase.entrada).toLocaleDateString('pt-BR')}
+                                  {fase.saida && (
+                                    <span> • Saída: {new Date(fase.saida).toLocaleDateString('pt-BR')}</span>
+                                  )}
+                                  <span> • Duração: {fase.duracao} dias</span>
+                                </div>
+                                {faseConfig && (
+                                  <div style={{
+                                    background: '#F8FAFC',
+                                    padding: '12px',
+                                    borderRadius: '6px',
+                                    fontSize: '13px',
+                                    color: '#64748b',
+                                    fontFamily: 'Inter, sans-serif'
+                                  }}>
+                                    {faseConfig.descricao}
+                                  </div>
+                                )}
+                              </div>
+                            )
+                          };
+                        })}
+                      />
+                    </div>
+                  )
+                },
+                {
+                  key: 'tarefas',
+                  label: (
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: '600' }}>
+                      <CheckSquare size={16} style={{ marginRight: '6px' }} />
+                      Tarefas
+                    </span>
+                  ),
+                  children: (
+                    <div style={{ padding: '24px 0' }}>
+                      <div style={{
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        color: '#1e293b',
+                        fontFamily: 'Inter, sans-serif',
+                        marginBottom: '16px'
+                      }}>
+                        Tarefas da Fase {modalClinica.fase_atual}
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        {pipelineDetalhado.find(f => f.fase === modalClinica.fase_atual)?.criterios.map((criterio, index) => (
+                          <div key={index} style={{
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            gap: '12px',
+                            padding: '12px',
+                            background: '#F8FAFC',
+                            borderRadius: '8px',
+                            border: '1px solid #E2E8F0'
+                          }}>
+                            <Checkbox />
+                            <div style={{ flex: 1 }}>
+                              <div style={{
+                                fontSize: '14px',
+                                fontWeight: '600',
+                                color: '#1e293b',
+                                fontFamily: 'Inter, sans-serif'
+                              }}>
+                                {criterio}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                },
+                {
+                  key: 'anotacoes',
+                  label: (
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: '600' }}>
+                      <MessageSquare size={16} style={{ marginRight: '6px' }} />
+                      Anotações
+                    </span>
+                  ),
+                  children: (
+                    <div style={{ padding: '24px 0' }}>
+                      <div style={{
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        color: '#1e293b',
+                        fontFamily: 'Inter, sans-serif',
+                        marginBottom: '16px'
+                      }}>
+                        Sistema de anotações em desenvolvimento...
+                      </div>
+                    </div>
+                  )
+                }
+              ]}
+            />
+          </div>
+        )}
+      </Modal>
 
       {/* Call to Action - HIERARQUIA H3 */}
       <Card style={{ 
