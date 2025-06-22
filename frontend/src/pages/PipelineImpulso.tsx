@@ -240,17 +240,17 @@ const PipelineImpulsoPage = () => {
         }} />
         
         <div style={{ padding: '20px' }}>
-          {/* Header da Fase */}
+          {/* Header da Fase - HIERARQUIA H3 */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-            <span style={{ fontSize: '32px' }}>{fase.icone}</span>
+            <span style={{ fontSize: '28px' }}>{fase.icone}</span>
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                 <div style={{ 
-                  fontSize: '12px', 
+                  fontSize: '11px', 
                   color: '#64748b', 
                   textTransform: 'uppercase', 
-                  letterSpacing: '0.5px', 
-                  fontWeight: '500',
+                  letterSpacing: '0.8px', 
+                  fontWeight: '600',
                   fontFamily: 'Inter, sans-serif'
                 }}>
                   Fase {fase.posicao}
@@ -264,94 +264,99 @@ const PipelineImpulsoPage = () => {
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  <span style={{ color: 'white', fontSize: '10px', fontWeight: '600' }}>
+                  <span style={{ color: 'white', fontSize: '10px', fontWeight: '700' }}>
                     {fase.posicao}
                   </span>
                 </div>
               </div>
               <div style={{ 
-                fontSize: '16px', 
-                fontWeight: '600', 
+                fontSize: '17px', 
+                fontWeight: '700', 
                 color: '#1e293b',
-                fontFamily: 'Inter, sans-serif'
+                fontFamily: 'Inter, sans-serif',
+                lineHeight: '22px',
+                letterSpacing: '-0.01em'
               }}>
                 {fase.titulo}
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
               <div style={{ 
-                fontSize: '24px', 
-                fontWeight: '700', 
+                fontSize: '32px', 
+                fontWeight: '800', 
                 color: '#1e293b',
                 fontFamily: 'Inter, sans-serif',
-                letterSpacing: '-0.025em'
+                letterSpacing: '-0.03em',
+                lineHeight: '36px'
               }}>
                 {loading ? '-' : fase.clinicas}
               </div>
               <div style={{ 
-                fontSize: '11px', 
+                fontSize: '12px', 
                 color: '#64748b',
-                fontFamily: 'Inter, sans-serif'
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: '500'
               }}>
                 {fase.clinicas === 1 ? 'clínica' : 'clínicas'}
               </div>
             </div>
           </div>
 
-          {/* Descrição */}
+          {/* Descrição - HIERARQUIA BODY */}
           <div style={{ marginBottom: '16px' }}>
             <p style={{ 
-              fontSize: '14px', 
+              fontSize: '15px', 
               color: '#64748b', 
-              lineHeight: '20px', 
+              lineHeight: '22px', 
               margin: '0',
-              fontFamily: 'Inter, sans-serif'
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: '400'
             }}>
               {fase.descricao}
             </p>
           </div>
 
-          {/* Métricas da Fase */}
+          {/* Métricas da Fase - HIERARQUIA H5 */}
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: '1fr 1fr', 
             gap: '12px', 
             marginBottom: '16px',
-            padding: '12px',
+            padding: '16px',
             background: '#F8FAFC',
             borderRadius: '8px'
           }}>
             <div>
               <div style={{ 
-                fontSize: '11px', 
+                fontSize: '10px', 
                 color: '#64748b', 
                 textTransform: 'uppercase', 
-                letterSpacing: '0.5px', 
-                marginBottom: '4px',
+                letterSpacing: '0.8px', 
+                marginBottom: '6px',
                 fontFamily: 'Inter, sans-serif',
-                fontWeight: '500'
+                fontWeight: '600'
               }}>
                 Tempo Médio
               </div>
               <div style={{ 
-                fontSize: '16px', 
-                fontWeight: '600', 
+                fontSize: '18px', 
+                fontWeight: '700', 
                 color: '#1e293b',
                 fontFamily: 'Inter, sans-serif',
-                letterSpacing: '-0.025em'
+                letterSpacing: '-0.01em'
               }}>
                 {fase.tempoMedio} dias
               </div>
             </div>
             <div>
               <div style={{ 
-                fontSize: '11px', 
+                fontSize: '10px', 
                 color: '#64748b', 
                 textTransform: 'uppercase', 
-                letterSpacing: '0.5px', 
-                marginBottom: '4px',
+                letterSpacing: '0.8px', 
+                marginBottom: '6px',
                 fontFamily: 'Inter, sans-serif',
-                fontWeight: '500'
+                fontWeight: '600'
               }}>
                 Status
               </div>
@@ -363,9 +368,9 @@ const PipelineImpulsoPage = () => {
                   background: fase.clinicas > 0 ? '#10B981' : '#CBD5E1'
                 }} />
                 <span style={{ 
-                  fontSize: '12px', 
+                  fontSize: '13px', 
                   color: fase.clinicas > 0 ? '#059669' : '#64748b', 
-                  fontWeight: '500',
+                  fontWeight: '600',
                   fontFamily: 'Inter, sans-serif'
                 }}>
                   {fase.clinicas > 0 ? 'Ativa' : 'Aguardando'}
@@ -381,11 +386,11 @@ const PipelineImpulsoPage = () => {
               paddingTop: '16px',
               animation: 'fadeIn 0.3s ease'
             }}>
-              {/* Critérios */}
+              {/* Critérios - HIERARQUIA H6 */}
               <div style={{ marginBottom: '16px' }}>
                 <div style={{ 
-                  fontSize: '12px', 
-                  fontWeight: '600', 
+                  fontSize: '13px', 
+                  fontWeight: '700', 
                   color: '#1e293b', 
                   marginBottom: '8px',
                   fontFamily: 'Inter, sans-serif'
@@ -395,10 +400,11 @@ const PipelineImpulsoPage = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                   {fase.criterios.map((criterio, idx) => (
                     <div key={idx} style={{ 
-                      fontSize: '11px', 
+                      fontSize: '12px', 
                       color: '#64748b',
                       fontFamily: 'Inter, sans-serif',
-                      paddingLeft: '8px'
+                      paddingLeft: '8px',
+                      fontWeight: '400'
                     }}>
                       • {criterio}
                     </div>
@@ -406,11 +412,11 @@ const PipelineImpulsoPage = () => {
                 </div>
               </div>
 
-              {/* Entregáveis */}
+              {/* Entregáveis - HIERARQUIA H6 */}
               <div style={{ marginBottom: '16px' }}>
                 <div style={{ 
-                  fontSize: '12px', 
-                  fontWeight: '600', 
+                  fontSize: '13px', 
+                  fontWeight: '700', 
                   color: '#1e293b', 
                   marginBottom: '8px',
                   fontFamily: 'Inter, sans-serif'
@@ -422,8 +428,9 @@ const PipelineImpulsoPage = () => {
                     <Tag 
                       key={idx} 
                       style={{ 
-                        fontSize: '10px',
+                        fontSize: '11px',
                         fontFamily: 'Inter, sans-serif',
+                        fontWeight: '500',
                         border: `1px solid ${fase.cor}30`,
                         background: `${fase.cor}10`,
                         color: fase.cor
@@ -435,11 +442,11 @@ const PipelineImpulsoPage = () => {
                 </div>
               </div>
 
-              {/* KPIs */}
+              {/* KPIs - HIERARQUIA H6 */}
               <div>
                 <div style={{ 
-                  fontSize: '12px', 
-                  fontWeight: '600', 
+                  fontSize: '13px', 
+                  fontWeight: '700', 
                   color: '#1e293b', 
                   marginBottom: '8px',
                   fontFamily: 'Inter, sans-serif'
@@ -451,8 +458,9 @@ const PipelineImpulsoPage = () => {
                     <Tag 
                       key={idx} 
                       style={{ 
-                        fontSize: '10px',
+                        fontSize: '11px',
                         fontFamily: 'Inter, sans-serif',
+                        fontWeight: '500',
                         background: '#F1F5F9',
                         color: '#475569',
                         border: '1px solid #E2E8F0'
@@ -466,13 +474,14 @@ const PipelineImpulsoPage = () => {
             </div>
           )}
 
-          {/* Indicador de Expansão */}
+          {/* Indicador de Expansão - HIERARQUIA CAPTION */}
           <div style={{ 
             textAlign: 'center', 
             marginTop: '12px',
-            fontSize: '12px',
+            fontSize: '11px',
             color: '#64748b',
-            fontFamily: 'Inter, sans-serif'
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: '500'
           }}>
             {isExpanded ? '▲ Clique para fechar detalhes' : '▼ Clique para ver detalhes'}
           </div>
@@ -484,50 +493,53 @@ const PipelineImpulsoPage = () => {
   return (
     <div style={{ 
       fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-      letterSpacing: '-0.025em'
+      letterSpacing: '-0.01em'
     }}>
       {/* FONTE INTER IMPLEMENTADA via Google Fonts */}
       <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet"
       />
           
-      {/* Header da Página */}
-      <div style={{ marginBottom: '32px' }}>
+      {/* Header da Página - HIERARQUIA H1 */}
+      <div style={{ marginBottom: '40px' }}>
         <div style={{ 
           background: 'linear-gradient(135deg, #FF7A00 0%, #1A202C 100%)', 
           borderRadius: '16px', 
-          padding: '32px', 
+          padding: '40px', 
           color: 'white',
-          marginBottom: '24px'
+          marginBottom: '32px'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '20px' }}>
             <div style={{
-              width: '64px',
-              height: '64px',
+              width: '72px',
+              height: '72px',
               background: 'rgba(255, 255, 255, 0.2)',
-              borderRadius: '16px',
+              borderRadius: '18px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <Workflow size={32} color="white" />
+              <Workflow size={36} color="white" />
             </div>
             <div>
               <h1 style={{ 
-                fontSize: '32px', 
-                fontWeight: '700', 
-                margin: '0 0 8px 0', 
+                fontSize: '42px', 
+                fontWeight: '800', 
+                margin: '0 0 12px 0', 
                 fontFamily: 'Inter, sans-serif',
-                letterSpacing: '-0.025em'
+                letterSpacing: '-0.03em',
+                lineHeight: '48px'
               }}>
                 Pipeline Método IMPULSO® Health
               </h1>
               <p style={{ 
-                fontSize: '16px', 
+                fontSize: '18px', 
                 margin: '0', 
                 opacity: '0.9',
-                fontFamily: 'Inter, sans-serif'
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: '400',
+                lineHeight: '26px'
               }}>
                 Metodologia proprietária SevenScale em 7 fases para transformação digital de clínicas médicas
               </p>
@@ -535,26 +547,27 @@ const PipelineImpulsoPage = () => {
           </div>
         </div>
 
-        {/* Métricas do Pipeline */}
+        {/* Métricas do Pipeline - HIERARQUIA H4 */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '16px',
-          marginBottom: '24px'
+          gap: '20px',
+          marginBottom: '32px'
         }}>
-          <Card style={{ borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+          <Card style={{ borderRadius: '12px', border: '1px solid #e2e8f0', padding: '8px' }}>
             <Statistic
-              title={<span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#64748b' }}>Taxa de Sucesso</span>}
+              title={<span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#64748b', fontWeight: '500' }}>Taxa de Sucesso</span>}
               value={loading ? 0 : metricas.taxaSucesso}
               suffix="%"
               valueStyle={{ 
                 fontFamily: 'Inter, sans-serif', 
-                fontWeight: '700', 
+                fontWeight: '800', 
                 color: '#10B981',
-                letterSpacing: '-0.025em'
+                letterSpacing: '-0.02em',
+                fontSize: '32px'
               }}
             />
-            <div style={{ marginTop: '8px' }}>
+            <div style={{ marginTop: '10px' }}>
               <Progress 
                 percent={loading ? 0 : metricas.taxaSucesso} 
                 strokeColor="#10B981" 
@@ -564,77 +577,83 @@ const PipelineImpulsoPage = () => {
             </div>
           </Card>
 
-          <Card style={{ borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+          <Card style={{ borderRadius: '12px', border: '1px solid #e2e8f0', padding: '8px' }}>
             <Statistic
-              title={<span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#64748b' }}>Tempo Médio/Fase</span>}
+              title={<span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#64748b', fontWeight: '500' }}>Tempo Médio/Fase</span>}
               value={loading ? 0 : metricas.tempoMedioTotal}
               suffix="dias"
               valueStyle={{ 
                 fontFamily: 'Inter, sans-serif', 
-                fontWeight: '700', 
+                fontWeight: '800', 
                 color: '#3B82F6',
-                letterSpacing: '-0.025em'
+                letterSpacing: '-0.02em',
+                fontSize: '32px'
               }}
             />
-            <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px', fontFamily: 'Inter, sans-serif' }}>
+            <div style={{ fontSize: '13px', color: '#64748b', marginTop: '6px', fontFamily: 'Inter, sans-serif', fontWeight: '500' }}>
               🚀 15% mais rápido que benchmark
             </div>
           </Card>
 
-          <Card style={{ borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+          <Card style={{ borderRadius: '12px', border: '1px solid #e2e8f0', padding: '8px' }}>
             <Statistic
-              title={<span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#64748b' }}>Clínicas Ativas</span>}
+              title={<span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#64748b', fontWeight: '500' }}>Clínicas Ativas</span>}
               value={loading ? 0 : metricas.clinicasAtivas}
               suffix={`/${metricas.capacidadeMaxima}`}
               valueStyle={{ 
                 fontFamily: 'Inter, sans-serif', 
-                fontWeight: '700', 
+                fontWeight: '800', 
                 color: '#FF7A00',
-                letterSpacing: '-0.025em'
+                letterSpacing: '-0.02em',
+                fontSize: '32px'
               }}
             />
-            <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px', fontFamily: 'Inter, sans-serif' }}>
+            <div style={{ fontSize: '13px', color: '#64748b', marginTop: '6px', fontFamily: 'Inter, sans-serif', fontWeight: '500' }}>
               💡 {metricas.capacidadeMaxima - metricas.clinicasAtivas} vagas disponíveis
             </div>
           </Card>
 
-          <Card style={{ borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+          <Card style={{ borderRadius: '12px', border: '1px solid #e2e8f0', padding: '8px' }}>
             <Statistic
-              title={<span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#64748b' }}>ROI Médio Final</span>}
+              title={<span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#64748b', fontWeight: '500' }}>ROI Médio Final</span>}
               value={loading ? 0 : metricas.roiMedioFinal}
               suffix="%"
               valueStyle={{ 
                 fontFamily: 'Inter, sans-serif', 
-                fontWeight: '700', 
+                fontWeight: '800', 
                 color: '#8B5CF6',
-                letterSpacing: '-0.025em'
+                letterSpacing: '-0.02em',
+                fontSize: '32px'
               }}
             />
-            <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px', fontFamily: 'Inter, sans-serif' }}>
+            <div style={{ fontSize: '13px', color: '#64748b', marginTop: '6px', fontFamily: 'Inter, sans-serif', fontWeight: '500' }}>
               📈 +105% vs ROI inicial
             </div>
           </Card>
         </div>
       </div>
 
-      {/* Pipeline Visual das 7 Fases */}
-      <div style={{ marginBottom: '32px' }}>
-        <div style={{ marginBottom: '24px' }}>
+      {/* Pipeline Visual das 7 Fases - HIERARQUIA H2 */}
+      <div style={{ marginBottom: '48px' }}>
+        <div style={{ marginBottom: '32px' }}>
           <h2 style={{ 
-            fontSize: '20px', 
-            fontWeight: '600', 
+            fontSize: '28px', 
+            fontWeight: '700', 
             color: '#1e293b', 
-            margin: '0 0 8px 0',
+            margin: '0 0 12px 0',
             fontFamily: 'Inter, sans-serif',
-            letterSpacing: '-0.025em'
+            letterSpacing: '-0.02em',
+            lineHeight: '34px'
           }}>
             As 7 Fases do Método IMPULSO®
           </h2>
           <p style={{ 
-            fontSize: '14px', 
+            fontSize: '16px', 
             color: '#64748b', 
             margin: '0',
-            fontFamily: 'Inter, sans-serif'
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: '400',
+            lineHeight: '24px'
           }}>
             Clique em cada fase para ver detalhes completos da metodologia
           </p>
@@ -661,30 +680,33 @@ const PipelineImpulsoPage = () => {
         </div>
       </div>
 
-      {/* Clínicas no Pipeline */}
-      <div style={{ marginBottom: '32px' }}>
-        <div style={{ marginBottom: '24px' }}>
+      {/* Clínicas no Pipeline - HIERARQUIA H2 */}
+      <div style={{ marginBottom: '48px' }}>
+        <div style={{ marginBottom: '32px' }}>
           <h2 style={{ 
-            fontSize: '20px', 
-            fontWeight: '600', 
+            fontSize: '28px', 
+            fontWeight: '700', 
             color: '#1e293b', 
-            margin: '0 0 8px 0',
+            margin: '0 0 12px 0',
             fontFamily: 'Inter, sans-serif',
-            letterSpacing: '-0.025em'
+            letterSpacing: '-0.02em',
+            lineHeight: '34px'
           }}>
             Clínicas Ativas no Pipeline
           </h2>
           <p style={{ 
-            fontSize: '14px', 
+            fontSize: '16px', 
             color: '#64748b', 
             margin: '0',
-            fontFamily: 'Inter, sans-serif'
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: '400',
+            lineHeight: '24px'
           }}>
             Acompanhamento detalhado do progresso de cada clínica na metodologia IMPULSO®
           </p>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {clinicasPipeline.map((clinica) => {
             const faseAtual = pipelineDetalhado.find(f => f.fase === clinica.fase_atual);
             return (
@@ -708,16 +730,17 @@ const PipelineImpulsoPage = () => {
                   background: faseAtual?.cor || '#CBD5E1'
                 }} />
                 
-                <div style={{ padding: '24px', paddingLeft: '28px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+                <div style={{ padding: '28px', paddingLeft: '32px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
                     <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
                         <h3 style={{ 
-                          fontSize: '18px', 
-                          fontWeight: '600', 
+                          fontSize: '22px', 
+                          fontWeight: '700', 
                           color: '#1e293b', 
                           margin: '0',
-                          fontFamily: 'Inter, sans-serif'
+                          fontFamily: 'Inter, sans-serif',
+                          letterSpacing: '-0.01em'
                         }}>
                           {clinica.nome}
                         </h3>
@@ -727,43 +750,49 @@ const PipelineImpulsoPage = () => {
                             color: faseAtual?.cor,
                             border: `1px solid ${faseAtual?.cor}30`,
                             fontFamily: 'Inter, sans-serif',
-                            fontWeight: '600'
+                            fontWeight: '600',
+                            fontSize: '12px',
+                            padding: '4px 8px'
                           }}
                         >
                           {faseAtual?.icone} {clinica.fase_atual}
                         </Tag>
                       </div>
                       <div style={{ 
-                        fontSize: '14px', 
+                        fontSize: '15px', 
                         color: '#64748b', 
-                        marginBottom: '4px',
-                        fontFamily: 'Inter, sans-serif'
+                        marginBottom: '6px',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: '500'
                       }}>
                         🎯 <strong>Próxima ação:</strong> {clinica.proxima_acao}
                       </div>
                       <div style={{ 
-                        fontSize: '13px', 
+                        fontSize: '14px', 
                         color: '#64748b',
-                        fontFamily: 'Inter, sans-serif'
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: '400'
                       }}>
                         👤 Responsável: {clinica.responsavel} • ⏱️ {clinica.tempo_na_fase} dias na fase
                       </div>
                     </div>
                     
-                    <div style={{ textAlign: 'right', minWidth: '120px' }}>
+                    <div style={{ textAlign: 'right', minWidth: '140px' }}>
                       <div style={{ 
-                        fontSize: '20px', 
-                        fontWeight: '700', 
+                        fontSize: '28px', 
+                        fontWeight: '800', 
                         color: '#10B981',
                         fontFamily: 'Inter, sans-serif',
-                        letterSpacing: '-0.025em'
+                        letterSpacing: '-0.02em',
+                        lineHeight: '32px'
                       }}>
                         {clinica.roi_atual}%
                       </div>
                       <div style={{ 
-                        fontSize: '12px', 
+                        fontSize: '13px', 
                         color: '#64748b',
-                        fontFamily: 'Inter, sans-serif'
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: '500'
                       }}>
                         ROI Atual
                       </div>
@@ -771,21 +800,21 @@ const PipelineImpulsoPage = () => {
                   </div>
 
                   {/* Progress da Fase */}
-                  <div style={{ marginBottom: '20px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                  <div style={{ marginBottom: '24px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
                       <span style={{ 
-                        fontSize: '12px', 
+                        fontSize: '13px', 
                         color: '#64748b',
                         fontFamily: 'Inter, sans-serif',
-                        fontWeight: '500'
+                        fontWeight: '600'
                       }}>
                         Progresso da Fase {faseAtual?.titulo}
                       </span>
                       <span style={{ 
-                        fontSize: '12px', 
+                        fontSize: '13px', 
                         color: '#1e293b',
                         fontFamily: 'Inter, sans-serif',
-                        fontWeight: '600'
+                        fontWeight: '700'
                       }}>
                         {clinica.progresso_fase}%
                       </span>
@@ -798,75 +827,75 @@ const PipelineImpulsoPage = () => {
                     />
                   </div>
 
-                  {/* Métricas da Clínica */}
+                  {/* Métricas da Clínica - HIERARQUIA H5 */}
                   <div style={{ 
                     display: 'grid', 
                     gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', 
-                    gap: '16px',
-                    padding: '16px',
+                    gap: '20px',
+                    padding: '20px',
                     background: '#F8FAFC',
                     borderRadius: '8px',
-                    marginBottom: '16px'
+                    marginBottom: '20px'
                   }}>
                     <div>
                       <div style={{ 
-                        fontSize: '11px', 
+                        fontSize: '10px', 
                         color: '#64748b', 
                         textTransform: 'uppercase', 
-                        letterSpacing: '0.5px', 
-                        marginBottom: '4px',
+                        letterSpacing: '0.8px', 
+                        marginBottom: '6px',
                         fontFamily: 'Inter, sans-serif',
-                        fontWeight: '500'
+                        fontWeight: '600'
                       }}>
                         Pacientes/Mês
                       </div>
                       <div style={{ 
-                        fontSize: '16px', 
-                        fontWeight: '600', 
+                        fontSize: '18px', 
+                        fontWeight: '700', 
                         color: '#1e293b',
                         fontFamily: 'Inter, sans-serif',
-                        letterSpacing: '-0.025em'
+                        letterSpacing: '-0.01em'
                       }}>
                         {clinica.pacientes_mes.toLocaleString()}
                       </div>
                     </div>
                     <div>
                       <div style={{ 
-                        fontSize: '11px', 
+                        fontSize: '10px', 
                         color: '#64748b', 
                         textTransform: 'uppercase', 
-                        letterSpacing: '0.5px', 
-                        marginBottom: '4px',
+                        letterSpacing: '0.8px', 
+                        marginBottom: '6px',
                         fontFamily: 'Inter, sans-serif',
-                        fontWeight: '500'
+                        fontWeight: '600'
                       }}>
                         Posição Pipeline
                       </div>
                       <div style={{ 
-                        fontSize: '16px', 
-                        fontWeight: '600', 
+                        fontSize: '18px', 
+                        fontWeight: '700', 
                         color: faseAtual?.cor,
                         fontFamily: 'Inter, sans-serif',
-                        letterSpacing: '-0.025em'
+                        letterSpacing: '-0.01em'
                       }}>
                         {clinica.posicao_fase}/7
                       </div>
                     </div>
                     <div>
                       <div style={{ 
-                        fontSize: '11px', 
+                        fontSize: '10px', 
                         color: '#64748b', 
                         textTransform: 'uppercase', 
-                        letterSpacing: '0.5px', 
-                        marginBottom: '4px',
+                        letterSpacing: '0.8px', 
+                        marginBottom: '6px',
                         fontFamily: 'Inter, sans-serif',
-                        fontWeight: '500'
+                        fontWeight: '600'
                       }}>
                         Data Entrada
                       </div>
                       <div style={{ 
-                        fontSize: '14px', 
-                        fontWeight: '500', 
+                        fontSize: '15px', 
+                        fontWeight: '600', 
                         color: '#1e293b',
                         fontFamily: 'Inter, sans-serif'
                       }}>
@@ -878,7 +907,7 @@ const PipelineImpulsoPage = () => {
                   {/* Actions */}
                   <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
                     <Button 
-                      size="small"
+                      size="middle"
                       style={{ 
                         fontFamily: 'Inter, sans-serif',
                         fontWeight: '500'
@@ -888,12 +917,12 @@ const PipelineImpulsoPage = () => {
                     </Button>
                     <Button 
                       type="primary"
-                      size="small"
+                      size="middle"
                       style={{ 
                         background: faseAtual?.cor,
                         borderColor: faseAtual?.cor,
                         fontFamily: 'Inter, sans-serif',
-                        fontWeight: '500'
+                        fontWeight: '600'
                       }}
                     >
                       Acompanhar
@@ -906,27 +935,30 @@ const PipelineImpulsoPage = () => {
         </div>
       </div>
 
-      {/* Call to Action */}
+      {/* Call to Action - HIERARQUIA H3 */}
       <Card style={{ 
         borderRadius: '12px', 
         textAlign: 'center', 
-        padding: '40px', 
+        padding: '48px', 
         background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)', 
         border: '2px dashed #cbd5e1' 
       }}>
         <div style={{ 
-          fontSize: '18px', 
-          fontWeight: '600', 
+          fontSize: '24px', 
+          fontWeight: '700', 
           color: '#64748b', 
-          marginBottom: '8px',
-          fontFamily: 'Inter, sans-serif'
+          marginBottom: '12px',
+          fontFamily: 'Inter, sans-serif',
+          letterSpacing: '-0.01em'
         }}>
           🎯 Quer acelerar o crescimento da sua clínica?
         </div>
         <div style={{ 
           color: '#94a3b8', 
-          marginBottom: '16px',
-          fontFamily: 'Inter, sans-serif'
+          marginBottom: '20px',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '16px',
+          fontWeight: '400'
         }}>
           Conheça a metodologia IMPULSO® e transforme sua clínica em até 90 dias
         </div>
@@ -937,7 +969,10 @@ const PipelineImpulsoPage = () => {
             background: 'linear-gradient(135deg, #FF7A00 0%, #1A202C 100%)',
             border: 'none',
             fontFamily: 'Inter, sans-serif',
-            fontWeight: '600'
+            fontWeight: '600',
+            fontSize: '16px',
+            height: '48px',
+            padding: '0 32px'
           }}
         >
           Agendar Consultoria Gratuita
