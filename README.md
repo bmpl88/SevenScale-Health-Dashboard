@@ -8,19 +8,20 @@ Plataforma especializada para digitalização de clínicas médicas usando metod
 
 ## 🚀 Stack Tecnológico
 
-- **Frontend:** React TypeScript ✅
+- **Frontend:** React TypeScript + Ant Design ✅
 - **Database:** Supabase PostgreSQL ✅
 - **Backend:** Python FastAPI (planejado)
 - **Integrações:** Google Calendar, Calendly, HubSpot, Google/Meta Ads, N8N
 
 ## 📊 Status Atual - BREAKTHROUGH! 🎉
 
-### **✅ DASHBOARD FUNCIONANDO COM DADOS REAIS (20/06/2025)**
+### **✅ DASHBOARD FUNCIONANDO COM DADOS REAIS (23/06/2025)**
 - **Interface:** ✅ 100% funcional carregando dados Supabase
 - **Database:** ✅ Supabase conectado com 3 clínicas reais
 - **KPIs Reais:** ✅ ROI 225%, Receita R$ 207K, 3 clínicas ativas
 - **Pipeline:** ✅ IMPULSO® com projetos reais em andamento
-
+- **Pipeline:**  A PAGINA DO PIPELINE IMPULSO ESTÁ EM DESENVOLVIMENTO
+  
 ### **🏆 Dados Reais Integrados:**
 1. **Clínica Derma Recife** - ROI 198.75%, R$ 52.400/mês
 2. **OdontoVita Salvador** - ROI 189.25%, R$ 65.800/mês  
