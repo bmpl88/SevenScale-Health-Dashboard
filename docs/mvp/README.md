@@ -25,16 +25,33 @@ Entregar **insights acionáveis diários** através de **UM agente consolidador*
 3. **🔗 Setup Integrações** - Configurar 6 APIs core
 4. **🎯 Dashboard Cliente** - Interface final para médicos (✅ já implementado)
 
+### **Stack Técnico Frontend:**
+- **React 18.3.1** - Biblioteca JavaScript para interfaces
+- **TypeScript 5.5.3** - Superset tipado para segurança de tipos
+- **Vite 5.4.2** - Ferramenta de build moderna e rápida
+- **Tailwind CSS 3.4.1** - Framework CSS utilitário para estilização
+- **Lucide React 0.344.0** - Biblioteca de ícones profissionais
+- **Recharts** - Visualização de dados (gráficos)
+- **React Router DOM** - Gerenciamento de rotas
+- **Supabase** - Autenticação e banco PostgreSQL
+
+### **Arquitetura Frontend:**
+- ✅ **Componentes reutilizáveis** - Design system consistente
+- ✅ **Hooks personalizados** - Lógica de negócio encapsulada
+- ✅ **Context API** - Gerenciamento de estado global
+- ✅ **Serviços** - Comunicação com APIs
+- ✅ **Páginas** - Seções organizadas do dashboard
+
 ### **Backend: Node.js + GPT-4**
 ```
 6 APIs → Node.js → JSON Consolidado → GPT-4 → Insights → Supabase → Frontend
 ```
 
-**Stack Técnica:**
+**Stack Técnica Backend:**
 - **Backend:** Node.js + Express (✅ funcionando)
 - **Database:** Supabase PostgreSQL (✅ funcionando)  
 - **IA:** GPT-4 direto (128k context window)
-- **Frontend:** React + TypeScript + Ant Design (✅ funcionando)
+- **APIs:** 6 integrações core
 
 ### **Agente Consolidador Único**
 - **Input:** Dados consolidados de 6 APIs
@@ -124,8 +141,9 @@ Entregar **insights acionáveis diários** através de **UM agente consolidador*
 
 ### **✅ IMPLEMENTADO (100%):**
 - Backend Node.js + Express + Supabase
+- Frontend React + TypeScript + Tailwind CSS
 - Dashboard Cliente (interface médicos)
-- Sistema de dados e APIs básicas
+- Design system SevenScale (#FF7A00, #1A202C)
 - Infraestrutura de desenvolvimento
 
 ### **⚙️ EM DESENVOLVIMENTO:**
@@ -145,7 +163,7 @@ Entregar **insights acionáveis diários** através de **UM agente consolidador*
 ## 🗂️ DOCUMENTAÇÃO
 
 - **[MVP-OVERVIEW.md](MVP-OVERVIEW.md)** - Especificações técnicas detalhadas
-- **[MVP-FRONTEND.md](MVP-FRONTEND.md)** - 4 páginas + componentes
+- **[MVP-FRONTEND.md](MVP-FRONTEND.md)** - 4 páginas + componentes Tailwind
 - **[MVP-BACKEND.md](MVP-BACKEND.md)** - Agente consolidador + APIs
 - **[MVP-INTEGRACOES.md](MVP-INTEGRACOES.md)** - 6 integrações core
 - **[MVP-ROADMAP.md](MVP-ROADMAP.md)** - Cronograma 8 semanas
@@ -155,4 +173,4 @@ Entregar **insights acionáveis diários** através de **UM agente consolidador*
 
 **🏆 Objetivo:** Sistema MVP funcional entregando valor real para clínicas médicas em **máximo 8 semanas**
 
-*Documentação criada: Junho 2025 - SevenScale MVP Tier 1*
+*Documentação atualizada: Junho 2025 - SevenScale MVP Tier 1 - Stack corrigido*
