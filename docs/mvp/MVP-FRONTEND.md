@@ -2,10 +2,31 @@
 
 > **Simplificação do frontend atual: de 7 páginas complexas para 4 páginas focadas no valor**
 
+## 📊 STACK FRONTEND ATUAL
+
+### **Tecnologias Implementadas:**
+- **React 18.3.1** - Biblioteca JavaScript para construção de interfaces
+- **TypeScript 5.5.3** - Superset tipado para melhor segurança de tipos
+- **Vite 5.4.2** - Ferramenta de build moderna e rápida
+- **Tailwind CSS 3.4.1** - Framework CSS utilitário para estilização
+- **Lucide React 0.344.0** - Biblioteca de ícones consistentes e profissionais
+- **Recharts** - Biblioteca para visualização de dados (gráficos)
+- **React Router DOM** - Gerenciamento de rotas na aplicação
+- **Supabase** - Autenticação e acesso ao banco PostgreSQL
+
+### **Arquitetura Organizada:**
+- ✅ **Componentes reutilizáveis** - Design system consistente
+- ✅ **Hooks personalizados** - Lógica de negócio encapsulada
+- ✅ **Context API** - Gerenciamento de estado global
+- ✅ **Serviços** - Comunicação com APIs
+- ✅ **Páginas** - Diferentes seções do dashboard
+
+---
+
 ## 📊 TRANSFORMAÇÃO NECESSÁRIA
 
 ### **SITUAÇÃO ATUAL:**
-✅ **7 páginas implementadas** (React + TypeScript + Ant Design)  
+✅ **7 páginas implementadas** (React + TypeScript + Tailwind)  
 ❌ **Complexidade excessiva** para MVP  
 ❌ **Funcionalidades avançadas** desnecessárias Tier 1  
 
@@ -35,53 +56,64 @@
 ### **1. 🏠 Dashboard Operacional SevenScale**
 **Objetivo:** Centro de controle operacional SevenScale
 
-#### **Componentes Essenciais:**
-```jsx
-// DashboardOperacional.jsx
-const DashboardOperacional = () => {
-  return (
-    <div className="dashboard-operacional">
-      {/* KPIs Operacionais */}
-      <Row gutter={[16, 16]}>
-        <Col span={6}>
-          <KPICard
-            title="Agente Status"
-            value="ATIVO"
-            status="success"
-            icon={<RobotOutlined />}
-          />
-        </Col>
-        <Col span={6}>
-          <KPICard
-            title="Clientes Ativos"
-            value={clientesAtivos}
-            icon={<UserOutlined />}
-          />
-        </Col>
-        <Col span={6}>
-          <KPICard
-            title="Processamentos Hoje"
-            value={processamentosHoje}
-            icon={<ThunderboltOutlined />}
-          />
-        </Col>
-        <Col span={6}>
-          <KPICard
-            title="Integrações OK"
-            value="5/6"
-            status="warning"
-            icon={<ApiOutlined />}
-          />
-        </Col>
-      </Row>
+#### **Componentes Tailwind:**
+```tsx
+// DashboardOperacional.tsx
+import { useState, useEffect } from 'react';
+import { RobotIcon, UsersIcon, ZapIcon, LinkIcon } from 'lucide-react';
 
-      {/* Status Agente Consolidador */}
-      <Card title="🤖 Status Agente Consolidador" className="mb-4">
-        <AgenteStatus />
+const DashboardOperacional = () => {
+  const [status, setStatus] = useState<'ativo' | 'inativo'>('ativo');
+  
+  return (
+    <div className="p-6 max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          Dashboard Operacional
+        </h1>
+        <p className="text-gray-600">
+          Centro de controle SevenScale Health Dashboard
+        </p>
+      </div>
+
+      {/* KPIs Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <KPICard
+          title="Agente Status"
+          value="ATIVO"
+          icon={<RobotIcon className="w-8 h-8 text-green-600" />}
+          status="success"
+          className="bg-green-50 border-green-200"
+        />
+        <KPICard
+          title="Clientes Ativos"
+          value="7/10"
+          icon={<UsersIcon className="w-8 h-8 text-blue-600" />}
+          className="bg-blue-50 border-blue-200"
+        />
+        <KPICard
+          title="Processamentos Hoje"
+          value="12"
+          icon={<ZapIcon className="w-8 h-8 text-orange-600" />}
+          className="bg-orange-50 border-orange-200"
+        />
+        <KPICard
+          title="Integrações OK"
+          value="5/6"
+          icon={<LinkIcon className="w-8 h-8 text-yellow-600" />}
+          status="warning"
+          className="bg-yellow-50 border-yellow-200"
+        />
+      </div>
+
+      {/* Status Agente */}
+      <Card title="🤖 Status Agente Consolidador" className="mb-6">
+        <AgenteStatus status={status} />
       </Card>
 
       {/* Resumo Clientes */}
-      <Card title="👥 Resumo Clientes" className="mb-4">
+      <Card title="👥 Resumo Clientes" className="mb-6">
         <ClientesResumo limit={5} />
       </Card>
 
@@ -94,12 +126,38 @@ const DashboardOperacional = () => {
 };
 ```
 
-#### **Funcionalidades:**
-- ✅ Status agente (ON/OFF, última execução)
-- ✅ KPIs operacionais básicos
-- ✅ Resumo 5 clientes principais
-- ✅ Logs de processamento recentes
-- ✅ Status integrações (5/6 conectadas)
+#### **Componentes Base Tailwind:**
+```tsx
+// components/KPICard.tsx
+interface KPICardProps {
+  title: string;
+  value: string;
+  icon: React.ReactNode;
+  status?: 'success' | 'warning' | 'error';
+  className?: string;
+}
+
+const KPICard: React.FC<KPICardProps> = ({ 
+  title, value, icon, status, className 
+}) => {
+  return (
+    <div className={`
+      p-6 rounded-lg border-2 bg-white shadow-sm
+      ${className || 'border-gray-200'}
+    `}>
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm font-medium text-gray-600">{title}</p>
+          <p className="text-2xl font-bold text-gray-900 mt-1">{value}</p>
+        </div>
+        <div className="flex-shrink-0">
+          {icon}
+        </div>
+      </div>
+    </div>
+  );
+};
+```
 
 ---
 
@@ -113,73 +171,77 @@ const DashboardOperacional = () => {
 | **Modal cadastro** | Complexo (15 campos) | Simples (6 campos) |
 | **Integrações por cliente** | 8 APIs | 5 APIs core |
 | **Analytics individual** | Dashboard completo | Métricas básicas |
-| **Histórico detalhado** | Completo | Últimos 30 dias |
 
-#### **Interface Simplificada:**
-```jsx
-// GestaoClientes.jsx
+#### **Interface Tailwind:**
+```tsx
+// GestaoClientes.tsx
+import { useState } from 'react';
+import { PlusIcon, EyeIcon, EditIcon, TrashIcon } from 'lucide-react';
+
 const GestaoClientes = () => {
-  const [clientes, setClientes] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <div className="gestao-clientes">
+    <div className="p-6 max-w-7xl mx-auto">
       {/* Header com Limite */}
-      <Card className="mb-4">
-        <Row justify="space-between" align="middle">
-          <Col>
-            <Title level={3}>👥 Gestão de Clientes</Title>
-            <Text type="secondary">
+      <div className="bg-white rounded-lg p-6 mb-6 shadow-sm border">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-1">
+              👥 Gestão de Clientes
+            </h1>
+            <p className="text-gray-600">
               {clientes.length}/10 clientes (MVP Tier 1)
-            </Text>
-          </Col>
-          <Col>
-            <Button 
-              type="primary" 
-              icon={<PlusOutlined />}
-              disabled={clientes.length >= 10}
-              onClick={() => setModalVisible(true)}
-            >
-              Novo Cliente
-            </Button>
-          </Col>
-        </Row>
-      </Card>
+            </p>
+          </div>
+          <button
+            onClick={() => setModalOpen(true)}
+            disabled={clientes.length >= 10}
+            className={`
+              flex items-center gap-2 px-4 py-2 rounded-lg font-medium
+              ${clientes.length >= 10 
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-orange-600 text-white hover:bg-orange-700'
+              }
+            `}
+          >
+            <PlusIcon className="w-4 h-4" />
+            Novo Cliente
+          </button>
+        </div>
+      </div>
 
-      {/* Lista Clientes Simplificada */}
-      <Row gutter={[16, 16]}>
+      {/* Grid Clientes */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {clientes.map(cliente => (
-          <Col span={12} key={cliente.id}>
-            <ClienteCardSimples cliente={cliente} />
-          </Col>
+          <ClienteCard key={cliente.id} cliente={cliente} />
         ))}
-      </Row>
+      </div>
 
-      {/* Modal Cadastro Simples */}
-      <Modal
-        title="Novo Cliente"
-        visible={modalVisible}
-        onCancel={() => setModalVisible(false)}
-        footer={null}
-      >
-        <CadastroClienteSimples 
-          onSuccess={() => setModalVisible(false)}
-        />
-      </Modal>
+      {/* Modal Cadastro */}
+      {modalOpen && (
+        <Modal onClose={() => setModalOpen(false)}>
+          <CadastroClienteSimples 
+            onSuccess={() => setModalOpen(false)}
+          />
+        </Modal>
+      )}
     </div>
   );
 };
 ```
 
 #### **Campos Cadastro Básico:**
-```javascript
+```tsx
+// CadastroClienteSimples.tsx
 const camposObrigatorios = [
-  'nome_clinica',      // "Dr. Silva - Cardiologia"
-  'especialidade',     // "Cardiologia" 
-  'cidade',           // "São Paulo, SP"
-  'email_contato',    // "contato@clinica.com"
-  'telefone',         // "(11) 99999-9999"
-  'website'           // "clinicasilva.com.br"
+  { name: 'nome_clinica', label: 'Nome da Clínica', type: 'text' },
+  { name: 'especialidade', label: 'Especialidade', type: 'select' },
+  { name: 'cidade', label: 'Cidade', type: 'text' },
+  { name: 'email_contato', label: 'Email', type: 'email' },
+  { name: 'telefone', label: 'Telefone', type: 'tel' },
+  { name: 'website', label: 'Website', type: 'url' }
 ];
 ```
 
@@ -188,90 +250,72 @@ const camposObrigatorios = [
 ### **3. 🔗 Setup Integrações**
 **Objetivo:** Configurar 6 APIs essenciais
 
-#### **Simplificação vs Atual:**
-- **Atual:** 8+ integrações complexas
-- **MVP:** 6 integrações core com setup simplificado
-
-#### **Interface Setup:**
-```jsx
-// SetupIntegracoes.jsx
+#### **Interface Tailwind:**
+```tsx
+// SetupIntegracoes.tsx
 const SetupIntegracoes = () => {
   const integracoes = [
     { 
       name: 'HubSpot CRM', 
       status: 'conectado', 
       icon: '🎯',
+      color: 'green',
       essential: true 
     },
     { 
       name: 'Google Analytics', 
       status: 'conectado', 
       icon: '📊',
+      color: 'blue',
       essential: true 
     },
     { 
       name: 'Meta Ads', 
       status: 'erro', 
       icon: '📱',
+      color: 'red',
       essential: true 
     },
-    { 
-      name: 'Google Calendar', 
-      status: 'conectado', 
-      icon: '📅',
-      essential: true 
-    },
-    { 
-      name: 'WhatsApp Business', 
-      status: 'pendente', 
-      icon: '💬',
-      essential: true 
-    },
-    { 
-      name: 'RD Station', 
-      status: 'opcional', 
-      icon: '🚀',
-      essential: false 
-    }
+    // ... outras integrações
   ];
 
-  return (
-    <div className="setup-integracoes">
-      <Card title="🔗 Setup Integrações Core">
-        <Row gutter={[16, 16]}>
-          {integracoes.map(integracao => (
-            <Col span={12} key={integracao.name}>
-              <IntegracaoCard integracao={integracao} />
-            </Col>
-          ))}
-        </Row>
-      </Card>
+  const conectadas = integracoes.filter(i => i.status === 'conectado').length;
 
-      <Card title="📋 Status Geral" className="mt-4">
-        <Progress 
-          percent={(integracoes.filter(i => i.status === 'conectado').length / 5) * 100}
-          status="active"
-          strokeColor={{
-            '0%': '#108ee9',
-            '100%': '#87d068',
-          }}
-        />
-        <Text>
-          {integracoes.filter(i => i.status === 'conectado').length}/5 integrações core conectadas
-        </Text>
-      </Card>
+  return (
+    <div className="p-6 max-w-7xl mx-auto">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          🔗 Setup Integrações
+        </h1>
+        <p className="text-gray-600">
+          Configure as 6 APIs essenciais para o MVP
+        </p>
+      </div>
+
+      {/* Progress Geral */}
+      <div className="bg-white rounded-lg p-6 mb-6 shadow-sm border">
+        <h2 className="text-lg font-semibold mb-4">Status Geral</h2>
+        <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+          <div 
+            className="bg-gradient-to-r from-orange-400 to-orange-600 h-3 rounded-full transition-all duration-300"
+            style={{ width: `${(conectadas / 5) * 100}%` }}
+          />
+        </div>
+        <p className="text-sm text-gray-600">
+          {conectadas}/5 integrações core conectadas ({Math.round((conectadas/5)*100)}%)
+        </p>
+      </div>
+
+      {/* Grid Integrações */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {integracoes.map(integracao => (
+          <IntegracaoCard key={integracao.name} integracao={integracao} />
+        ))}
+      </div>
     </div>
   );
 };
 ```
-
-#### **Setup Simplificado por Integração:**
-- **HubSpot:** API Key + Portal ID
-- **Google Analytics:** Service Account JSON
-- **Meta Ads:** Access Token + Ad Account ID  
-- **Google Calendar:** Service Account + Calendar ID
-- **WhatsApp:** Token + Phone Number ID
-- **RD Station:** API Key + Account ID (opcional)
 
 ---
 
@@ -279,153 +323,144 @@ const SetupIntegracoes = () => {
 **Objetivo:** Interface final que médicos acessam
 
 #### **Status:** ✅ **PERFEITO PARA MVP!**
-O dashboard cliente atual já está implementado e é **exatamente** o que precisamos para o MVP:
+O dashboard cliente atual já está implementado com **Tailwind CSS** e é **exatamente** o que precisamos:
 
-- ✅ **Métricas consolidadas** essenciais
+- ✅ **Componentes Tailwind** responsivos
 - ✅ **Design SevenScale** (#FF7A00, #1A202C)  
-- ✅ **Responsivo** e otimizado
+- ✅ **Recharts** para visualizações
+- ✅ **Lucide Icons** consistentes
 - ✅ **Dados reais** do Supabase
-- ✅ **Performance** excelente
 
-#### **Componentes Já Funcionando:**
-```jsx
-// Estrutura atual funcionando
-<DashboardCliente>
-  <KPICards />           // ROI, receita, pacientes
-  <MetricasConsolidadas /> // Dados unificados 
-  <GraficosBasicos />     // Charts essenciais
-  <InsightsAgente />      // 3-5 insights diários
-  <ActionItems />         // Ações recomendadas
-</DashboardCliente>
-```
-
-**🎯 Não precisa modificar nada!** Este dashboard será alimentado pelo **Agente Consolidador**.
+#### **Não precisa modificar nada!** Este dashboard será alimentado pelo **Agente Consolidador**.
 
 ---
 
-## ⚙️ IMPLEMENTAÇÃO TÉCNICA
-
-### **Navegação Simplificada:**
-```jsx
-// components/Navigation.jsx
-const navigationItems = [
-  {
-    key: 'operacional',
-    icon: <DashboardOutlined />,
-    label: 'Dashboard Operacional',
-    path: '/operacional'
-  },
-  {
-    key: 'clientes',
-    icon: <UserOutlined />,
-    label: 'Gestão Clientes',
-    path: '/clientes',
-    badge: clientes.length + '/10'
-  },
-  {
-    key: 'integracoes',
-    icon: <ApiOutlined />,
-    label: 'Setup Integrações', 
-    path: '/integracoes',
-    badge: integracoesConectadas + '/6'
-  },
-  {
-    key: 'cliente-view',
-    icon: <EyeOutlined />,
-    label: 'Visualizar como Cliente',
-    path: '/cliente-dashboard'
-  }
-];
-```
-
-### **Remoções Necessárias:**
-```bash
-# Arquivos/componentes a remover:
-src/pages/AgentesIA.jsx          # 7 agentes → 1 consolidador
-src/pages/AnalyticsCompleto.jsx  # BI avançado desnecessário  
-src/pages/Configuracoes.jsx      # Admin complexo
-src/components/AgentCard.jsx     # Cards agentes individuais
-src/components/AnalyticsCharts.jsx # Charts complexos
-```
-
-### **Adaptações Necessárias:**
-```bash
-# Arquivos a simplificar:
-src/pages/GestaoClientes.jsx     # Limite 10 + campos básicos
-src/pages/Integracoes.jsx        # 8 APIs → 6 core
-src/components/ClienteModal.jsx  # 15 campos → 6 essenciais
-```
-
----
-
-## 📱 DESIGN SYSTEM (Mantido)
+## ⚙️ DESIGN SYSTEM TAILWIND
 
 ### **Cores SevenScale:**
-- **Primary:** `#FF7A00` (Laranja vibrante)
-- **Dark:** `#1A202C` (Azul escuro)
-- **Success:** `#10B981` (Verde)
-- **Warning:** `#F59E0B` (Amarelo)
-- **Error:** `#EF4444` (Vermelho)
+```css
+/* tailwind.config.js */
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        sevenscale: {
+          orange: '#FF7A00',
+          dark: '#1A202C',
+          success: '#10B981',
+          warning: '#F59E0B',
+          error: '#EF4444'
+        }
+      }
+    }
+  }
+}
+```
 
 ### **Componentes Base:**
-- **KPICard** - Métricas destacadas
-- **StatusBadge** - Indicadores status
-- **ClienteCard** - Resumo cliente
-- **IntegracaoCard** - Status APIs
-- **AgenteStatus** - Status consolidador
+```tsx
+// components/Card.tsx
+interface CardProps {
+  title?: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+const Card: React.FC<CardProps> = ({ title, children, className }) => (
+  <div className={`bg-white rounded-lg shadow-sm border p-6 ${className}`}>
+    {title && (
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+    )}
+    {children}
+  </div>
+);
+
+// components/Button.tsx
+interface ButtonProps {
+  variant?: 'primary' | 'secondary' | 'danger';
+  size?: 'sm' | 'md' | 'lg';
+  children: React.ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+}
+
+const Button: React.FC<ButtonProps> = ({ 
+  variant = 'primary', 
+  size = 'md', 
+  children, 
+  ...props 
+}) => {
+  const baseClasses = 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2';
+  
+  const variants = {
+    primary: 'bg-orange-600 text-white hover:bg-orange-700 focus:ring-orange-500',
+    secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500',
+    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500'
+  };
+  
+  const sizes = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2 text-base',
+    lg: 'px-6 py-3 text-lg'
+  };
+  
+  return (
+    <button 
+      className={`${baseClasses} ${variants[variant]} ${sizes[size]}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
+```
 
 ---
 
 ## 📋 CRONOGRAMA SIMPLIFICAÇÃO
 
 ### **Semana 1: Remoção Complexidades**
-- [ ] Remover páginas desnecessárias (Agentes, Analytics, Config)
-- [ ] Simplificar navegação (7→4 páginas)  
+- [ ] Remover páginas `/agentes-ia`, `/analytics`, `/configuracoes`
+- [ ] Simplificar navegação (4 páginas)  
 - [ ] Adaptar dashboard operacional
 - [ ] Testes funcionamento básico
 
 ### **Semana 2: Adaptação Páginas**
 - [ ] Limite 10 clientes na gestão
-- [ ] Simplificar modal cadastro (6 campos)
-- [ ] Reduzir integrações setup (6 core)
-- [ ] Status indicators integrações
+- [ ] Modal cadastro simples (6 campos)
+- [ ] Setup integrações (6 core)
+- [ ] Components Tailwind otimizados
 
 ### **Semana 3: Integração Backend**
 - [ ] Conectar com Agente Consolidador
 - [ ] Alimentar dashboard cliente
-- [ ] Dados reais nas 4 páginas
-- [ ] Testes integração completa
+- [ ] Context API para estado global
+- [ ] Hooks personalizados
 
-### **Semana 4: Polish + UX**
-- [ ] Otimização performance
-- [ ] Melhorias UX baseadas em testes
-- [ ] Documentação componentes
-- [ ] Preparação deploy
+### **Semana 4: Polish + Performance**
+- [ ] Otimização Tailwind (purge CSS)
+- [ ] Lazy loading componentes
+- [ ] Error boundaries
+- [ ] Testes E2E
 
 ---
 
-## 💡 BENEFÍCIOS SIMPLIFICAÇÃO
+## 💡 BENEFÍCIOS TAILWIND CSS
 
 ### **Para Desenvolvimento:**
-- ✅ **Redução 60% complexidade** frontend
-- ✅ **Foco no essencial** - 4 páginas vs 7
-- ✅ **Manutenção simplificada**
-- ✅ **Deploy mais rápido**
+- ✅ **Performance:** CSS otimizado e purificado
+- ✅ **Consistência:** Design system através de classes
+- ✅ **Produtividade:** Desenvolvimento mais rápido
+- ✅ **Manutenibilidade:** Menos CSS customizado
 
-### **Para Usuários (SevenScale):**
-- ✅ **Interface limpa** e focada
-- ✅ **Gestão simples** até 10 clientes
-- ✅ **Setup integrações** claro
-- ✅ **Operação eficiente**
-
-### **Para Clientes (Médicos):**
-- ✅ **Dashboard cliente mantido** (já perfeito!)
-- ✅ **Experiência consistente** 
-- ✅ **Insights acionáveis** diários
-- ✅ **Performance otimizada**
+### **Para MVP:**
+- ✅ **Responsivo:** Mobile-first approach
+- ✅ **Customização:** SevenScale branding fácil
+- ✅ **Componentes:** Reutilização alta
+- ✅ **Bundle size:** Menor que frameworks CSS
 
 ---
 
-**🎯 Resultado:** Frontend **60% mais simples**, **100% focado no valor**, mantendo **dashboard cliente perfeito** e **experiência SevenScale profissional**.
+**🎯 Resultado:** Frontend **moderno**, **performático** e **focado no valor** usando **Tailwind CSS** + **React 18** + **TypeScript** para entrega rápida do MVP.
 
-*Documentação criada: Junho 2025 - SevenScale MVP Frontend*
+*Documentação atualizada: Junho 2025 - SevenScale MVP Frontend - Tailwind CSS*
